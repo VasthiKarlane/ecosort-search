@@ -1,0 +1,25 @@
+# Environnements virtuels Python
+.venv/
+venv/
+env/
+
+# Cache Python
+__pycache__/
+*.pyc
+
+# Dataset (trop volumineux pour Git)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Modèle entraîné (peut être lourd aussi)
+model/saved_model/*.h5
+!model/saved_model/.gitkeep
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Environnement VS Code (optionnel)
+.vscode/
