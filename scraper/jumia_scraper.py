@@ -5,12 +5,27 @@ from scraper.utils import get_headers, nettoyer_texte
 def search_products(keyword):
     url = f"https://www.jumia.ci/catalog/?q={keyword}"
     
-    response = requests.get(url, headers=get_headers(), timeout=10)
-    soup = BeautifulSoup(response.text, "html.parser")
+    try:
+        response = requests.get(url, headers=get_headers(), timeout=10)
+        response.raise_for_status()
+    except requests.exceptions.Timeout:
+        print("Erreur : délai d'attente dépassé")
+        return []
+    except requests.exceptions.ConnectionError:
+        print("Erreur : pas de connexion internet")
+        return []
+    except requests.exceptions.HTTPError as e:
+        print(f"Erreur HTTP : {e}")
+        return []
     
-    produits = []
+    soup = BeautifulSoup(response.text, "html.parser")
     articles = soup.find_all("article", class_="prd")
     
+    if not articles:
+        print("Aucun produit trouvé")
+        return []
+    
+    produits = []
     for article in articles[:5]:
         nom = article.find("h3", class_="name")
         prix = article.find("div", class_="prc")
