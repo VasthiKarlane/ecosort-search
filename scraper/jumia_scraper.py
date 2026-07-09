@@ -1,14 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
+from scraper.utils import get_headers, nettoyer_texte
 
 def search_products(keyword):
     url = f"https://www.jumia.ci/catalog/?q={keyword}"
     
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-    }
-    
-    response = requests.get(url, headers=headers, timeout=10)
+    response = requests.get(url, headers=get_headers(), timeout=10)
     soup = BeautifulSoup(response.text, "html.parser")
     
     produits = []
@@ -22,8 +19,8 @@ def search_products(keyword):
         
         if nom and prix and lien:
             produits.append({
-                "nom": nom.text.strip(),
-                "prix": prix.text.strip(),
+                "nom": nettoyer_texte(nom.text),
+                "prix": nettoyer_texte(prix.text),
                 "lien": "https://www.jumia.ci" + lien["href"],
                 "image": image["data-src"] if image and image.get("data-src") else ""
             })
