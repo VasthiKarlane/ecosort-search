@@ -18,12 +18,14 @@ def search_products(keyword):
         nom = article.find("h3", class_="name")
         prix = article.find("div", class_="prc")
         lien = article.find("a", class_="core")
+        image = article.find("img")
         
         if nom and prix and lien:
             produits.append({
                 "nom": nom.text.strip(),
                 "prix": prix.text.strip(),
-                "lien": "https://www.jumia.ci" + lien["href"]
+                "lien": "https://www.jumia.ci" + lien["href"],
+                "image": image["data-src"] if image and image.get("data-src") else ""
             })
     
     return produits
