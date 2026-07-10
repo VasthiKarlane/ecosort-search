@@ -2,35 +2,33 @@ from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import EarlyStopping
+from sklearn.utils.class_weight import compute_class_weight
+import numpy as np
 
 import config
+from preprocessing import get_data_generators
 
 
 def build_model(num_classes):
     """
     Construit le modèle par Transfer Learning à partir de MobileNetV2.
     """
-    # 1. Charger MobileNetV2 pré-entraîné, sans sa couche de classification finale
     base_model = MobileNetV2(
-        input_shape=(*config.IMG_SIZE, 3),  # (224, 224, 3) -> 3 = couleurs RGB
-        include_top=False,                   # on enlève la dernière couche
-        weights="imagenet"                   # on charge les poids pré-entraînés
+        input_shape=(*config.IMG_SIZE, 3),
+        include_top=False,
+        weights="imagenet"
     )
-
-    # 2. Geler les couches de MobileNetV2 (on ne les entraîne pas)
     base_model.trainable = False
 
-    # 3. Ajouter nos propres couches finales, adaptées à nos 6 catégories
     x = base_model.output
-    x = GlobalAveragePooling2D()(x)   # résume chaque "carte de caractéristiques" en un seul nombre
-    x = Dense(128, activation="relu")(x)  # couche intermédiaire
-    x = Dropout(0.3)(x)                    # évite le sur-apprentissage (voir explication plus bas)
-    predictions = Dense(num_classes, activation="softmax")(x)  # couche finale : nos 6 catégories
+    x = GlobalAveragePooling2D()(x)
+    x = Dense(128, activation="relu")(x)
+    x = Dropout(0.3)(x)
+    predictions = Dense(num_classes, activation="softmax")(x)
 
-    # 4. Assembler le modèle complet
     model = Model(inputs=base_model.input, outputs=predictions)
 
-    # 5. Compiler le modèle (préparer l'entraînement)
     model.compile(
         optimizer=Adam(learning_rate=config.LEARNING_RATE),
         loss="categorical_crossentropy",
@@ -40,6 +38,51 @@ def build_model(num_classes):
     return model
 
 
+def get_class_weights(train_generator):
+    """
+    Calcule des poids par catégorie pour compenser le déséquilibre du dataset
+    (ex: 'trash' qui a moins d'images que les autres).
+    """
+    classes = train_generator.classes
+    class_labels = np.unique(classes)
+
+    weights = compute_class_weight(
+        class_weight="balanced",
+        classes=class_labels,
+        y=classes
+    )
+
+    return dict(zip(class_labels, weights))
+
+
 if __name__ == "__main__":
+    # 1. Charger les données
+    train_generator, validation_generator = get_data_generators()
+
+    # 2. Construire le modèle
     model = build_model(num_classes=len(config.DATASET_CLASSES))
     model.summary()
+
+    # 3. Calculer les poids de classes (pour compenser le déséquilibre)
+    class_weights = get_class_weights(train_generator)
+    print("\nPoids par catégorie :", class_weights)
+
+    # 4. Définir l'arrêt anticipé (EarlyStopping)
+    early_stop = EarlyStopping(
+        monitor="val_loss",
+        patience=3,
+        restore_best_weights=True
+    )
+
+    # 5. Entraîner le modèle
+    history = model.fit(
+        train_generator,
+        validation_data=validation_generator,
+        epochs=config.EPOCHS,
+        class_weight=class_weights,
+        callbacks=[early_stop]
+    )
+
+    # 6. Sauvegarder le modèle entraîné
+    model.save(config.MODEL_SAVE_PATH)
+    print(f"\nModèle sauvegardé dans : {config.MODEL_SAVE_PATH}")
