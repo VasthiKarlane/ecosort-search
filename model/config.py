@@ -28,3 +28,23 @@ CATEGORY_MAPPING = {
     "paper": "BLEU",
     "trash": "MARRON",
 }
+
+# --- Mots-clés pour détecter les produits électroniques (D3E) ---
+# Vérifiés AVANT d'utiliser le modèle IA, sur le nom du produit scrapé
+D3E_KEYWORDS = [
+    "chargeur", "charger", "smartphone", "telephone", "téléphone",
+    "ecouteur", "écouteur", "casque", "batterie", "power bank",
+    "montre connectee", "montre connectée", "mixeur", "blender",
+    "cable usb", "câble usb", "adaptateur", "prise electrique",
+    "ordinateur", "tablette", "console", "manette", "clavier",
+    "souris", "enceinte", "bluetooth", "camera", "caméra"
+]
+
+# --- Couleurs UI associées à chaque catégorie officielle ---
+CATEGORY_COLORS = {
+    "JAUNE": "#FFD700",
+    "VERT": "#22C55E",
+    "BLEU": "#3B82F6",
+    "D3E": "#6B7280",
+    "MARRON": "#78350F",
+}
