@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{{ url_for('index') }}" class="back-link">&larr; Nouvelle recherche</a>
+
+{% if erreur %}
+<div class="result-card error">
+    <h2>{{ nom }}</h2>
+    <p>Impossible d'analyser ce produit : {{ erreur }}</p>
+</div>
+{% else %}
+<div class="result-card" style="background-color: {{ resultat.color }};">
+    <h2>{{ nom }}</h2>
+    {% if image %}<img src="{{ image }}" alt="{{ nom }}">{% endif %}
+    <p class="category">Poubelle {{ resultat.category }}</p>
+    {% if resultat.detected_material %}
+    <p>Matiere detectee : {{ resultat.detected_material }} ({{ (resultat.confidence * 100) | round(1) }}% de confiance)</p>
+    {% endif %}
+    <a href="{{ lien }}" target="_blank" rel="noopener">Voir le produit sur Jumia</a>
+</div>
+{% endif %}
+{% endblock %}

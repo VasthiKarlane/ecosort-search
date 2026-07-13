@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{{ url_for('search') }}" method="post" class="search-form">
+    <input type="text" name="keyword" placeholder="Nom du produit (ex: bouteille d'eau)" required autofocus>
+    <button type="submit">Rechercher</button>
+</form>
+{% endblock %}
