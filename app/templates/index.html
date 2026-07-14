@@ -1,7 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="{{ url_for('search') }}" method="post" class="search-form">
-    <input type="text" name="keyword" placeholder="Nom du produit (ex: bouteille d'eau)" required autofocus>
-    <button type="submit">Rechercher</button>
-</form>
+<section class="hero">
+    <h1 class="hero__title">Quel produit voulez-vous trier&nbsp;?</h1>
+    <p class="hero__subtitle">Cherchez un produit sur Jumia, on vous dit dans quelle poubelle il finit.</p>
+
+    <form action="{{ url_for('search') }}" method="post" class="search-form">
+        <span class="search-form__icon">&#128269;</span>
+        <input type="text" name="keyword" placeholder="Ex : bouteille d'eau, chargeur, pot de confiture..." required autofocus>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <div class="hero__examples">
+        <span>Essayez :</span>
+        <button type="button" class="chip" data-keyword="bouteille">bouteille</button>
+        <button type="button" class="chip" data-keyword="chargeur">chargeur</button>
+        <button type="button" class="chip" data-keyword="cahier">cahier</button>
+        <button type="button" class="chip" data-keyword="pot de confiture">pot de confiture</button>
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll(".chip").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+            var input = document.querySelector('input[name="keyword"]');
+            input.value = chip.dataset.keyword;
+            input.form.submit();
+        });
+    });
+</script>
 {% endblock %}

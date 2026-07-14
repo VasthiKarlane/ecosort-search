@@ -60,6 +60,7 @@ def classify_product():
     except Exception as exc:
         return render_template("result.html", nom=nom, lien=lien, image=image_url, erreur=str(exc))
 
+    resultat.update(classify.config.CATEGORY_LABELS[resultat["category"]])
     return render_template("result.html", nom=nom, lien=lien, image=image_url, resultat=resultat)
 
 

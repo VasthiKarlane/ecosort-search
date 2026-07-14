@@ -1,28 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 <a href="{{ url_for('index') }}" class="back-link">&larr; Nouvelle recherche</a>
-<h2>Resultats pour &laquo;&nbsp;{{ keyword }}&nbsp;&raquo;</h2>
+<h2 class="section-title">Résultats pour &laquo;&nbsp;{{ keyword }}&nbsp;&raquo;</h2>
 
 {% if produits %}
 <div class="product-grid">
     {% for produit in produits %}
-    <div class="product-card">
-        {% if produit.image %}
-        <img src="{{ produit.image }}" alt="{{ produit.nom }}">
-        {% endif %}
-        <h3>{{ produit.nom }}</h3>
-        <p class="price">{{ produit.prix }}</p>
-        <a href="{{ produit.lien }}" target="_blank" rel="noopener">Voir sur Jumia</a>
-        <form action="{{ url_for('classify_product') }}" method="post">
+    <article class="product-card">
+        <div class="product-card__image">
+            {% if produit.image %}
+            <img src="{{ produit.image }}" alt="{{ produit.nom }}" loading="lazy">
+            {% else %}
+            <span class="product-card__placeholder">&#128230;</span>
+            {% endif %}
+        </div>
+        <div class="product-card__body">
+            <h3 class="product-card__title">{{ produit.nom }}</h3>
+            <p class="product-card__price">{{ produit.prix }}</p>
+            <a href="{{ produit.lien }}" target="_blank" rel="noopener" class="product-card__link">Voir sur Jumia &#8599;</a>
+        </div>
+        <form action="{{ url_for('classify_product') }}" method="post" class="product-card__form">
             <input type="hidden" name="nom" value="{{ produit.nom }}">
             <input type="hidden" name="image" value="{{ produit.image }}">
             <input type="hidden" name="lien" value="{{ produit.lien }}">
-            <button type="submit">Analyser le tri</button>
+            <button type="submit" class="btn-primary">&#9851;&#65039; Analyser le tri</button>
         </form>
-    </div>
+    </article>
     {% endfor %}
 </div>
 {% else %}
-<p>Aucun produit trouve pour cette recherche.</p>
+<div class="empty-state">
+    <span class="empty-state__icon">&#128533;</span>
+    <p>Aucun produit trouvé pour cette recherche.</p>
+    <a href="{{ url_for('index') }}" class="btn-primary">Essayer un autre mot-clé</a>
+</div>
 {% endif %}
 {% endblock %}
