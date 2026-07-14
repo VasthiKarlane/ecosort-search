@@ -20,3 +20,4 @@ Thumbs.db
 
 # Environnement VS Code (optionnel)
 .vscode/
+notebooks/.ipynb_checkpoints/
