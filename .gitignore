@@ -13,9 +13,6 @@ data/raw/*
 data/processed/*
 !data/processed/.gitkeep
 
-# Modèle entraîné (peut être lourd aussi)
-model/saved_model/*.h5
-!model/saved_model/.gitkeep
 
 # Fichiers système
 .DS_Store

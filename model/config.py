@@ -2,10 +2,16 @@
 Configuration centrale du projet EcoSort-Search.
 Tous les hyperparamètres et chemins importants sont définis ici.
 """
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # --- Chemins ---
-DATA_PATH = "../data/raw"
-MODEL_SAVE_PATH = "saved_model/modele_eco_sort.h5"
+# Chemins absolus (bases sur l'emplacement de ce fichier) afin que le modele
+# se charge correctement quelle que soit le repertoire de travail (ex: dans Docker
+# ou lorsque ce module est importe par l'application Flask dans app/).
+DATA_PATH = os.path.join(BASE_DIR, "..", "data", "raw")
+MODEL_SAVE_PATH = os.path.join(BASE_DIR, "saved_model", "modele_eco_sort.h5")
 
 # --- Prétraitement des images ---
 IMG_SIZE = (224, 224)      # Taille standard pour MobileNetV2
