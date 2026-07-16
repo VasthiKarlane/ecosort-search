@@ -1,6 +1,6 @@
 # ♻️ EcoSort-Search
 
-Application web qui aide les citoyens à trier leurs déchets : l'utilisateur saisit le nom d'un produit, l'application le recherche sur **Jumia**, puis un modèle de **Deep Learning** identifie la matière de son emballage et affiche la consigne de tri officielle correspondante.
+Application web qui aide les utilisateurs à trier leurs déchets : l'utilisateur saisit le nom d'un produit, l'application le recherche sur **Jumia**, puis un modèle de **Deep Learning** identifie la matière de son emballage et affiche la consigne de tri officielle correspondante.
 
 Projet de fin de module ISE2 - ML2.
 
@@ -91,7 +91,7 @@ Lancer les tests :
 pytest tests/
 ```
 
-## 🖥️ Lancer l'application en local
+## Lancer l'application en local
 
 ```bash
 cd app
