@@ -8,7 +8,7 @@ Projet de fin de module ISE2 - ML2.
 
 ## 🎯 Fonctionnement
 
-1. L'utilisateur saisit le nom d'un produit (ex : *"bouteille d'eau"*).
+1. L'utilisateur saisit le nom d'un produit (ex : *"bouteille"*).
 2. L'application scrape Jumia et propose 3 à 5 résultats correspondants.
 3. L'utilisateur sélectionne un produit.
 4. Le modèle de classification analyse le produit (image + nom) et détermine sa catégorie de tri.
