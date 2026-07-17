@@ -8,11 +8,30 @@
 </head>
 <body>
     <header class="site-header">
-        <h1>&#9851;&#65039; EcoSort-Search</h1>
-        <p>Trouvez la bonne poubelle pour votre produit</p>
+        <div class="site-header__inner">
+            <a href="{{ url_for('index') }}" class="brand">
+                <span class="brand__logo">&#9851;&#65039;</span>
+                <span class="brand__text">
+                    <strong>EcoSort</strong><span class="brand__accent">Search</span>
+                </span>
+            </a>
+            <p class="site-header__tagline">Trouvez la bonne poubelle pour votre produit</p>
+        </div>
     </header>
-    <main>
+
+    <main class="page">
         {% block content %}{% endblock %}
     </main>
+
+    <footer class="site-footer">
+        <p class="site-footer__title">Les 5 catégories de tri</p>
+        <div class="legend">
+            <span class="legend__item"><i class="legend__dot" style="background:#F5B700"></i>Jaune &mdash; plastique, métal, carton</span>
+            <span class="legend__item"><i class="legend__dot" style="background:#16A34A"></i>Verte &mdash; verre</span>
+            <span class="legend__item"><i class="legend__dot" style="background:#2563EB"></i>Bleue &mdash; papier</span>
+            <span class="legend__item"><i class="legend__dot" style="background:#52525B"></i>D3E &mdash; électronique</span>
+            <span class="legend__item"><i class="legend__dot" style="background:#7C4A1E"></i>Marron &mdash; résiduel</span>
+        </div>
+    </footer>
 </body>
 </html>

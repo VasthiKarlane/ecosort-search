@@ -3,19 +3,39 @@
 <a href="{{ url_for('index') }}" class="back-link">&larr; Nouvelle recherche</a>
 
 {% if erreur %}
-<div class="result-card error">
+<div class="result-card result-card--error">
+    <span class="result-card__icon">&#9888;&#65039;</span>
     <h2>{{ nom }}</h2>
     <p>Impossible d'analyser ce produit : {{ erreur }}</p>
+    <a href="{{ url_for('index') }}" class="btn-primary">Réessayer</a>
 </div>
 {% else %}
-<div class="result-card" style="background-color: {{ resultat.color }};">
-    <h2>{{ nom }}</h2>
-    {% if image %}<img src="{{ image }}" alt="{{ nom }}">{% endif %}
-    <p class="category">Poubelle {{ resultat.category }}</p>
-    {% if resultat.detected_material %}
-    <p>Matiere detectee : {{ resultat.detected_material }} ({{ (resultat.confidence * 100) | round(1) }}% de confiance)</p>
+<div class="result-card" style="--accent: {{ resultat.color }};">
+    {% if image %}
+    <img src="{{ image }}" alt="{{ nom }}" class="result-card__image">
     {% endif %}
-    <a href="{{ lien }}" target="_blank" rel="noopener">Voir le produit sur Jumia</a>
+
+    <div class="result-card__badge">
+        <span class="result-card__badge-icon">{{ resultat.icon }}</span>
+    </div>
+
+    <h2 class="result-card__product">{{ nom }}</h2>
+    <p class="result-card__category">{{ resultat.label }}</p>
+    <p class="result-card__advice">{{ resultat.consigne }}</p>
+
+    {% if resultat.detected_material %}
+    <div class="confidence">
+        <div class="confidence__row">
+            <span>Matière détectée&nbsp;: <strong>{{ resultat.detected_material }}</strong></span>
+            <span>{{ (resultat.confidence * 100) | round(1) }}%</span>
+        </div>
+        <div class="confidence__bar">
+            <div class="confidence__fill" style="width: {{ (resultat.confidence * 100) | round(0) }}%;"></div>
+        </div>
+    </div>
+    {% endif %}
+
+    <a href="{{ lien }}" target="_blank" rel="noopener" class="btn-primary">Voir le produit sur Jumia &#8599;</a>
 </div>
 {% endif %}
 {% endblock %}

@@ -48,9 +48,18 @@ D3E_KEYWORDS = [
 
 # --- Couleurs UI associées à chaque catégorie officielle ---
 CATEGORY_COLORS = {
-    "JAUNE": "#FFD700",
-    "VERT": "#22C55E",
-    "BLEU": "#3B82F6",
-    "D3E": "#6B7280",
-    "MARRON": "#78350F",
+    "JAUNE": "#F5B700",
+    "VERT": "#16A34A",
+    "BLEU": "#2563EB",
+    "D3E": "#52525B",
+    "MARRON": "#7C4A1E",
+}
+
+# --- Libellés et pictogrammes affichés dans l'interface ---
+CATEGORY_LABELS = {
+    "JAUNE": {"label": "Poubelle jaune", "icon": "🟡", "consigne": "Emballages recyclables : plastique, métal, carton"},
+    "VERT": {"label": "Poubelle verte", "icon": "🟢", "consigne": "Verre d'emballage uniquement"},
+    "BLEU": {"label": "Poubelle bleue", "icon": "🔵", "consigne": "Papiers et journaux"},
+    "D3E": {"label": "Bac électronique (D3E)", "icon": "🔌", "consigne": "Appareils électriques et électroniques"},
+    "MARRON": {"label": "Poubelle marron / noire", "icon": "⚫", "consigne": "Déchets résiduels non recyclables"},
 }
